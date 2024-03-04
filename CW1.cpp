@@ -1,6 +1,9 @@
 #include <iostream>
 #include <memory>
 #include <cmath>
+#include <vector>
+#include <algorithm>
+#include <ctime>
 
 using namespace std;
 
@@ -27,7 +30,7 @@ struct BinomialSolver {
     double factA, factB, factC;
 
     double x1, x2, x0;
-    BinomialSolver(int a, int b, int c) : factA(a), factB(b), factC(c) {};
+    BinomialSolver(double a, double b, double c) : factA(a), factB(b), factC(c) {};
 
 
     double returnA() const {
@@ -76,87 +79,35 @@ struct BinomialSolver {
 //Zadanie 8
 
 //Zadanie 13
-//void bubbleSort(float arr[], int n);
-//void heapSort(float arr[], int n);
-//void quickSort(float arr[], int low, int high);
-//
-//class Sorting {
-//public:
-//    int measurement(float* Data, int Size, void (*sort)(float[], int)) {
-//        long start = getTime();
-//        (*sort)(Data, Size);
-//        long end = getTime();
-//        return end - start;
-//    }
-//
-//private:
-//    long getTime() {
-//        return static_cast<long>(time(NULL)) * 1000;
-//    }
-//};
-//
-//void bubbleSort(float arr[], int n) {
-//    for (int i = 0; i < n - 1; ++i) {
-//        for (int j = 0; j < n - i - 1; ++j) {
-//            if (arr[j] > arr[j + 1]) {
-//                swap(arr[j], arr[j + 1]);
-//            }
-//        }
-//    }
-//}
-//
-//void heapify(float arr[], int n, int i) {
-//    int largest = i;
-//    int left = 2 * i + 1;
-//    int right = 2 * i + 2;
-//
-//    if (left < n && arr[left] > arr[largest]) {
-//        largest = left;
-//    }
-//
-//    if (right < n && arr[right] > arr[largest]) {
-//        largest = right;
-//    }
-//
-//    if (largest != i) {
-//        swap(arr[i], arr[largest]);
-//        heapify(arr, n, largest);
-//    }
-//}
-//
-//void heapSort(float arr[], int n) {
-//    for (int i = n / 2 - 1; i >= 0; --i) {
-//        heapify(arr, n, i);
-//    }
-//
-//    for (int i = n - 1; i > 0; --i) {
-//        swap(arr[0], arr[i]);
-//        heapify(arr, i, 0);
-//    }
-//}
-//
-//int partition(float arr[], int low, int high) {
-//    float pivot = arr[high];
-//    int i = low - 1;
-//
-//    for (int j = low; j < high; ++j) {
-//        if (arr[j] < pivot) {
-//            ++i;
-//            swap(arr[i], arr[j]);
-//        }
-//    }
-//    swap(arr[i + 1], arr[high]);
-//    return i + 1;
-//}
-//
-//void quickSort(float arr[], int low, int high) {
-//    if (low < high) {
-//        int pi = partition(arr, low, high);
-//
-//        quickSort(arr, low, pi - 1);
-//        quickSort(arr, pi + 1, high);
-//    }
-//}
+class Sorting {
+public:
+    static double measurement(std::vector<int>& arr, void (*sortFunction)(std::vector<int>&)) {
+        std::clock_t start = std::clock();
+        sortFunction(arr);
+        std::clock_t end = std::clock();
+        return double(end - start) / CLOCKS_PER_SEC;
+    }
+
+    static void bubbleSort(std::vector<int>& arr) {
+        int n = arr.size();
+        for (int i = 0; i < n - 1; ++i) {
+            for (int j = 0; j < n - i - 1; ++j) {
+                if (arr[j] > arr[j + 1]) {
+                    std::swap(arr[j], arr[j + 1]);
+                }
+            }
+        }
+    }
+
+    static void heapSort(std::vector<int>& arr) {
+        std::make_heap(arr.begin(), arr.end());
+        std::sort_heap(arr.begin(), arr.end());
+    }
+
+    static void quickSort(std::vector<int>& arr) {
+        std::sort(arr.begin(), arr.end());
+    }
+};
 
 int main() {
     int exNumber;
@@ -209,39 +160,35 @@ int main() {
                 break;
             }
 
-                /*case 13: {
-                        const int numArrays = 1000;
-                        const int arraySize = 300;
-                        const int range = 1000;
+            case 13: {
+                const int numArrays = 1000;
+                const int arraySize = 300;
+                const int range = 1000;
 
-                        Sorting sorter;
+                double avgTimeBubble = 0.0;
+                double avgTimeHeap = 0.0;
+                double avgTimeQuick = 0.0;
 
-                        double avgTimeBubble = 0.0;
-                        double avgTimeHeap = 0.0;
-                        double avgTimeQuick = 0.0;
+                for (int i = 0; i < numArrays; ++i) {
+                    std::vector<int> arr(arraySize);
+                    for (int j = 0; j < arraySize; ++j) {
+                        arr[j] = rand() % range;
+                    }
 
-                        for (int i = 0; i < numArrays; ++i) {
-                            float* arr = new float[arraySize];
-                            for (int j = 0; j < arraySize; ++j) {
-                                arr[j] = static_cast<float>(rand() % range);
-                            }
+                    avgTimeBubble += Sorting::measurement(arr, Sorting::bubbleSort);
+                    avgTimeHeap += Sorting::measurement(arr, Sorting::heapSort);
+                    avgTimeQuick += Sorting::measurement(arr, Sorting::quickSort);
+                }
 
-                            avgTimeBubble += sorter.measurement(arr, arraySize, bubbleSort);
-                            avgTimeHeap += sorter.measurement(arr, arraySize, heapSort);
-                            avgTimeQuick += sorter.measurement(arr, arraySize, quickSort);
+                avgTimeBubble /= numArrays;
+                avgTimeHeap /= numArrays;
+                avgTimeQuick /= numArrays;
 
-                            delete[] arr;
-                        }
-
-                        avgTimeBubble /= numArrays;
-                        avgTimeHeap /= numArrays;
-                        avgTimeQuick /= numArrays;
-
-                        cout << "Average time taken for Bubble Sort: " << avgTimeBubble << " milliseconds\n";
-                        cout << "Average time taken for Heap Sort: " << avgTimeHeap << " milliseconds\n";
-                        cout << "Average time taken for Quick Sort: " << avgTimeQuick << " milliseconds\n";
-                        break;
-                    }*/
+                cout << "Average time taken for Bubble Sort: " << avgTimeBubble << " seconds\n";
+                cout << fixed << "Average time taken for Heap Sort: " << avgTimeHeap << " seconds\n";
+                cout << fixed << "Average time taken for Quick Sort: " << avgTimeQuick << " seconds\n";
+                break;
+            }
         }
     } while (true);
 
