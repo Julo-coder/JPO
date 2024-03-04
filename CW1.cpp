@@ -1,222 +1,248 @@
 #include <iostream>
 #include <memory>
+#include <cmath>
 
 using namespace std;
 
 //Zadanie 1
-struct VerboseObject{
-    string nazwaObiektu;
-    VerboseObject(string nazwa) : nazwaObiektu(nazwa){
-        cout << "Konstruktor wywolany"<< " " << nazwaObiektu<< endl;
+struct VerboseObject {
+    string objectName;
+    VerboseObject(string name) : objectName(name) {
+        cout << "Konstruktor wywolany" << " " << objectName << endl;
     }
 
-    ~VerboseObject(){
-        cout << "Destruktor wywolany" << " " << nazwaObiektu << endl;
+    ~VerboseObject() {
+        cout << "Destruktor wywolany" << " " << objectName << endl;
     }
 
-    void wyswietl(){
-        cout << "Metoda na strukturze" << " " << nazwaObiektu << endl;
+    void show() {
+        cout << "Metoda na strukturze" << " " << objectName << endl;
     }
 
     //Kontruktory tworzą obiekty według kolejnosci lecz destruktory zwalniaja pamięć na podstawie kolejności w stercie i stosie.
 };
 
 //Zadanie 2
-struct BinomialSolver{
-    double wspolA;
-    double wspolB;
-    double wspolC;
-    BinomialSolver (int a, int b, int c) : wspolA(a), wspolB(b), wspolC(c){};
+struct BinomialSolver {
+    double factA, factB, factC;
+
+    double x1, x2, x0;
+    BinomialSolver(int a, int b, int c) : factA(a), factB(b), factC(c) {};
 
 
-    double zwrocA() const{
-        return wspolA;
+    double returnA() const {
+        return factA;
     }
 
-    double zwrocB() const{
-        return wspolB;
+    double returnB() const {
+        return factB;
     }
 
-    double zwrocC() const{
-        return wspolC;
+    double returnC() const {
+        return factC;
+    }
+
+    double returnX1() {
+        return x1;
+    }
+
+    double returnX2() {
+        return x2;
+    }
+
+    void solveEquation() {
+        double delta = factB * factB - 4 * factA * factC;
+        if (delta > 0) {
+            x1 = (-factB + sqrt(delta) / (2 * factA));
+            x2 = (-factB - sqrt(delta) / (2 * factA));
+        }
+        else if (delta == 0) {
+            x0 = -factB / 2 * factA;
+        }
+        else {
+            x1 = NAN;
+            x2 = NAN;
+            x0 = NAN;
+        }
+    }
+
+    double calculate(double x) {
+        return factA * x * x + factB * x + factC;
     }
 
 
 };
 
 //Zadanie 8
-class BSTree{
-    int val;
-    BSTree *left;
-    BSTree *right;
-public:
-    BSTree();
-    ~BSTree();
-    bool isEmpty();
-    void insert(int);
-    bool contains(int);
-    void clean();
-    void printInOrder();
-
-};
-
-BSTree::BSTree() {};
-BSTree::~BSTree(){};
-bool BSTree::isEmpty(){
-
-};
-void BSTree::insert(int) {};
-bool BSTree::contains(int) {};
-void BSTree::clean() {};
-void BSTree::printInOrder(){};
 
 //Zadanie 13
-class Sorting {
-public:
-    Sorting();
-    void bubbleSort(int[], int);
-    void heapSort(int[], int);
-    void quickSort(int[], int, int);
-    void display(int [], int);
-};
+//void bubbleSort(float arr[], int n);
+//void heapSort(float arr[], int n);
+//void quickSort(float arr[], int low, int high);
+//
+//class Sorting {
+//public:
+//    int measurement(float* Data, int Size, void (*sort)(float[], int)) {
+//        long start = getTime();
+//        (*sort)(Data, Size);
+//        long end = getTime();
+//        return end - start;
+//    }
+//
+//private:
+//    long getTime() {
+//        return static_cast<long>(time(NULL)) * 1000;
+//    }
+//};
+//
+//void bubbleSort(float arr[], int n) {
+//    for (int i = 0; i < n - 1; ++i) {
+//        for (int j = 0; j < n - i - 1; ++j) {
+//            if (arr[j] > arr[j + 1]) {
+//                swap(arr[j], arr[j + 1]);
+//            }
+//        }
+//    }
+//}
+//
+//void heapify(float arr[], int n, int i) {
+//    int largest = i;
+//    int left = 2 * i + 1;
+//    int right = 2 * i + 2;
+//
+//    if (left < n && arr[left] > arr[largest]) {
+//        largest = left;
+//    }
+//
+//    if (right < n && arr[right] > arr[largest]) {
+//        largest = right;
+//    }
+//
+//    if (largest != i) {
+//        swap(arr[i], arr[largest]);
+//        heapify(arr, n, largest);
+//    }
+//}
+//
+//void heapSort(float arr[], int n) {
+//    for (int i = n / 2 - 1; i >= 0; --i) {
+//        heapify(arr, n, i);
+//    }
+//
+//    for (int i = n - 1; i > 0; --i) {
+//        swap(arr[0], arr[i]);
+//        heapify(arr, i, 0);
+//    }
+//}
+//
+//int partition(float arr[], int low, int high) {
+//    float pivot = arr[high];
+//    int i = low - 1;
+//
+//    for (int j = low; j < high; ++j) {
+//        if (arr[j] < pivot) {
+//            ++i;
+//            swap(arr[i], arr[j]);
+//        }
+//    }
+//    swap(arr[i + 1], arr[high]);
+//    return i + 1;
+//}
+//
+//void quickSort(float arr[], int low, int high) {
+//    if (low < high) {
+//        int pi = partition(arr, low, high);
+//
+//        quickSort(arr, low, pi - 1);
+//        quickSort(arr, pi + 1, high);
+//    }
+//}
 
-Sorting::Sorting() {}
+int main() {
+    int exNumber;
 
-void Sorting::bubbleSort(int arr[], int size) {
-    for (int i = 0; i < size - 1; i++) {
-        for (int j = 0; j < size - i - 1; j++) {
-            if (arr[j] > arr[j + 1]) {
-                // Swap arr[j] and arr[j+1]
-                int temp = arr[j];
-                arr[j] = arr[j + 1];
-                arr[j + 1] = temp;
-            }
-        }
-    }
-};
-
-void Sorting::display(int arr[], int size){
-    for(int i = 0; i < size; i++){
-        cout << arr[i] << " ";
-    }
-}
-
-void heapify(int arr[], int size, int i){
-    int largest = i;
-    int l = 2 * i + 1;
-    int r = 2 * i + 2;
-
-    if (l < size && arr[l] > arr[largest])
-        largest = l;
-
-    if (r < size && arr[r] > arr[largest])
-        largest = r;
-
-    if (largest != i) {
-        swap(arr[i], arr[largest]);
-        heapify(arr, size, largest);
-    }
-};
-
-void Sorting::heapSort(int arr[], int size){
-    for(int i = size / 2 - 1; i >=0; i--)
-        heapify(arr, size, i);
-    for(int j = size - 1; j >= 0; j--){
-        swap(arr[0], arr[j]);
-        heapify(arr, j, 0);
-    }
-};
-
-int partition(int arr[],int start, int end){
-    int pivot = arr[start];
-    int count = 0;
-
-    for(int i = start + 1; i <= end; i++){
-        if (arr[i] <= pivot)
-            count++;
-    }
-    int pivotIndex = start + count;
-    swap(arr[pivotIndex], arr[start]);
-
-    int i = start, j = end;
-
-    while (i < pivotIndex && j > pivotIndex) {
-        while (arr[i] <= pivot) {
-            i++;
-        }
-        while (arr[j] > pivot) {
-            j--;
-        }
-        if (i < pivotIndex && j > pivotIndex) {
-            swap(arr[i++], arr[j--]);
-        }
-    }
-
-    return pivotIndex;
-};
-
-
-void Sorting::quickSort(int arr[], int start, int end){
-    if (start >= end)
-        return;
-    int p = partition(arr, start, end);
-    quickSort(arr, start, p - 1);
-    quickSort(arr, p + 1, end);
-};
-
-int main(){
-    int nrZadania;
-
-    do{
+    do {
         cout << "Podaj numer zadania: " << endl;
-        cin >> nrZadania;
+        cin >> exNumber;
 
-        switch(nrZadania){
-            case 1:{
-
+        switch (exNumber) {
+            case 1: {
                 cout << "Podaj nazwe obiektu: " << endl;
-                string nazwa;
-                cin >> nazwa;
-                VerboseObject obiekt1(nazwa);
-                obiekt1.wyswietl();
+                string name;
+                cin >> name;
+                VerboseObject obj1(name);
+                obj1.show();
 
-                unique_ptr<VerboseObject> obiekt2( new VerboseObject(nazwa));
-                obiekt2->wyswietl();
+                unique_ptr<VerboseObject> obj2(new VerboseObject(name));
+                obj2->show();
 
-                VerboseObject * obiekt3 = new VerboseObject(nazwa);
-                obiekt3->wyswietl();
-                delete obiekt3;
-
+                VerboseObject* obj3 = new VerboseObject(name);
+                obj3->show();
+                delete obj3;
 
                 break;
             }
-            case 8:{
+            case 2: {
+                BinomialSolver b1(1.0, -5.0, 4.0);
+                cout << "Roots of the equation x*x - 5x + 4 = 0 are: " << endl;
+                cout << "x1 = " << b1.returnX1() << ", x2 = " << b1.returnX2() << endl;
+                cout << "The value of the polynomial x*x - 5x + 4 at x = 1 is: ";
+                cout << b1.calculate(1.0) << endl;
+                cout << "The value of the polynomial x*x - 5x + 4 at x = 3 is: ";
+                cout << b1.calculate(3.0) << endl;
+                BinomialSolver b2(1.0, 2.0, 1.0);
+                cout << "Roots of the equation x*x + 2x + 1 = 0 are: " << endl;
+                cout << "x1 = " << b2.returnX1() << ", x2 = " << b2.returnX2() << endl;
+                cout << "The value of the polynomial x*x + 2x + 1 at x = 1 is: ";
+                cout << b2.calculate(1.0) << endl;
+                cout << "The value of the polynomial x*x + 2x + 1 at x = -1 is: ";
+                cout << b2.calculate(-1.0) << endl;
+                break;
+            }
+            case 3: {
+                break;
+            }
+            case 4: {
+                break;
+            }
+            case 8: {
                 break;
             }
 
-            case 13:{
-                int range = 1000;
-                int size = 300;
+                /*case 13: {
+                        const int numArrays = 1000;
+                        const int arraySize = 300;
+                        const int range = 1000;
 
-                Sorting sort;
+                        Sorting sorter;
 
-                for (int i = 0; i < range; ++i) {
-                    int* arr = new int[size];
-                    for (int j = 0; j < size; ++j) {
-                        arr[j] = rand() % range;
-                    }
-                    sort.display(arr, size);
-                    cout << endl;
-                    sort.heapSort(arr, size);
-                    sort.bubbleSort(arr, size);
-                    sort.quickSort(arr, size-1, 0);
-                    sort.display(arr,size);
-                    delete[] arr;
-                }
-                return 0;
-                break;
-            }
+                        double avgTimeBubble = 0.0;
+                        double avgTimeHeap = 0.0;
+                        double avgTimeQuick = 0.0;
+
+                        for (int i = 0; i < numArrays; ++i) {
+                            float* arr = new float[arraySize];
+                            for (int j = 0; j < arraySize; ++j) {
+                                arr[j] = static_cast<float>(rand() % range);
+                            }
+
+                            avgTimeBubble += sorter.measurement(arr, arraySize, bubbleSort);
+                            avgTimeHeap += sorter.measurement(arr, arraySize, heapSort);
+                            avgTimeQuick += sorter.measurement(arr, arraySize, quickSort);
+
+                            delete[] arr;
+                        }
+
+                        avgTimeBubble /= numArrays;
+                        avgTimeHeap /= numArrays;
+                        avgTimeQuick /= numArrays;
+
+                        cout << "Average time taken for Bubble Sort: " << avgTimeBubble << " milliseconds\n";
+                        cout << "Average time taken for Heap Sort: " << avgTimeHeap << " milliseconds\n";
+                        cout << "Average time taken for Quick Sort: " << avgTimeQuick << " milliseconds\n";
+                        break;
+                    }*/
         }
-    }while(true);
+    } while (true);
 
 }
