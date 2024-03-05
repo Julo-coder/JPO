@@ -4,6 +4,7 @@
 #include <vector>
 #include <algorithm>
 #include <ctime>
+#include <iomanip>
 
 using namespace std;
 
@@ -60,11 +61,11 @@ struct BinomialSolver {
     void solveEquation() {
         double delta = factB * factB - 4 * factA * factC;
         if (delta > 0) {
-            x1 = (-factB + sqrt(delta) / (2 * factA));
-            x2 = (-factB - sqrt(delta) / (2 * factA));
+            x1 = ((-factB + sqrt(delta))/ (2 * factA));
+            x2 = ((-factB - sqrt(delta)) / (2 * factA));
         }
         else if (delta == 0) {
-            x0 = -factB / 2 * factA;
+            x0 = -factB / (2 * factA);
         }
         else {
             x1 = NAN;
@@ -98,7 +99,6 @@ struct Complex {
         return Complex(real * other.real - imag * other.imag, real * other.imag + imag * other.real);
     }
 };
-//Zadanie 4
 
 //Zadanie 8
 class BSTree {
@@ -271,14 +271,23 @@ int main() {
                 break;
             }
             case 4: {
-                double A, B, C, esp;
+                double A, B, C, eps;
+                int precision;
 
-                cin >> A >> B >> C >> esp;
+                cin >> A >> B >> C >> eps;
 
-                BinomialSolver solver(A, B, C);
+                precision = abs(static_cast<int>(log10(eps)));
 
-                solver.solveEquation();
+                BinomialSolver binomial(A,B,C);
+                binomial.solveEquation();
 
+                if(!isnan(binomial.returnX1())){
+                    if(binomial.returnX1() > binomial.returnX2()){
+                        cout << fixed << setprecision(precision) << binomial.returnX1() << endl;
+                    }else{
+                        cout << fixed << setprecision(precision) << binomial.returnX2() << endl;
+                    }
+                }
                 break;
             }
             case 8: {
