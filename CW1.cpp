@@ -53,6 +53,10 @@ struct BinomialSolver {
         return x2;
     }
 
+    double returnX0(){
+        return x0;
+    }
+
     void solveEquation() {
         double delta = factB * factB - 4 * factA * factC;
         if (delta > 0) {
@@ -75,37 +79,131 @@ struct BinomialSolver {
 
 
 };
+//Zadanie 3
+struct Complex {
+    double real;
+    double imag;
+
+    Complex(double r = 0, double i = 0) : real(r), imag(i) {};
+
+    double modulus() {
+        return sqrt(real * real + imag * imag);
+    }
+
+    Complex operator+(const Complex& other) {
+        return Complex(real + other.real, imag + other.imag);
+    }
+
+    Complex operator*(const Complex& other) {
+        return Complex(real * other.real - imag * other.imag, real * other.imag + imag * other.real);
+    }
+};
+//Zadanie 4
 
 //Zadanie 8
+class BSTree {
+private:
+    struct Node {
+        int data;
+        Node* left;
+        Node* right;
 
+        Node(int val) : data(val), left(nullptr), right(nullptr) {}
+    };
+    Node* root;
+
+    void clearRecursive(Node* node) {
+        if (node) {
+            clearRecursive(node->left);
+            clearRecursive(node->right);
+            delete node;
+        }
+    }
+
+    void printInorderRec(Node* node) {
+        if (node) {
+            printInorderRec(node->left);
+            cout << node->data;
+            printInorderRec(node->right);
+        }
+    }
+
+public:
+    BSTree() : root(nullptr) {}
+    ~BSTree() {
+        clear();
+    }
+
+    bool isEmpty() {
+        return root == nullptr;
+    }
+
+    void insert(int val) {
+        Node** current = &root;
+        while (*current) {
+            if (val < (*current)->data) {
+                current = &((*current)->left);
+            }
+            else {
+                current = current = &((*current)->right);
+            }
+        }
+        *current = new Node(val);
+    }
+
+    bool contains(int val) {
+        Node* current = root;
+        while (current) {
+            if (val == current->data) {
+                return true;
+            }
+            else if (val < current->data) {
+                current = current->left;
+            }
+            else {
+                current = current->right;
+            }
+        }
+        return false;
+    }
+
+    void clear() {
+        clearRecursive(root);
+        root = nullptr;
+    }
+
+    void printInOrder() {
+        printInorderRec(root);
+    }
+};
 //Zadanie 13
 class Sorting {
 public:
-    static double measurement(std::vector<int>& arr, void (*sortFunction)(std::vector<int>&)) {
-        std::clock_t start = std::clock();
+    static double measurement(vector<int>& arr, void (*sortFunction)(vector<int>&)) {
+        clock_t start = clock();
         sortFunction(arr);
-        std::clock_t end = std::clock();
+        clock_t end = clock();
         return double(end - start) / CLOCKS_PER_SEC;
     }
 
-    static void bubbleSort(std::vector<int>& arr) {
+    static void bubbleSort(vector<int>& arr) {
         int n = arr.size();
         for (int i = 0; i < n - 1; ++i) {
             for (int j = 0; j < n - i - 1; ++j) {
                 if (arr[j] > arr[j + 1]) {
-                    std::swap(arr[j], arr[j + 1]);
+                    swap(arr[j], arr[j + 1]);
                 }
             }
         }
     }
 
-    static void heapSort(std::vector<int>& arr) {
-        std::make_heap(arr.begin(), arr.end());
-        std::sort_heap(arr.begin(), arr.end());
+    static void heapSort(vector<int>& arr) {
+        make_heap(arr.begin(), arr.end());
+        sort_heap(arr.begin(), arr.end());
     }
 
-    static void quickSort(std::vector<int>& arr) {
-        std::sort(arr.begin(), arr.end());
+    static void quickSort(vector<int>& arr) {
+        sort(arr.begin(), arr.end());
     }
 };
 
@@ -151,12 +249,54 @@ int main() {
                 break;
             }
             case 3: {
+                Complex sum(0, 0);
+                Complex product(1, 0);
+                Complex maxModulus(0, 0);
+
+                double real, imag;
+
+                cin >> real >> imag;
+                Complex current(real, imag);
+
+                sum = sum + current;
+                product = product * current;
+
+                if (current.modulus() > maxModulus.modulus()) {
+                    maxModulus = current;
+                }
+
+                cout << "Suma: " << sum.real << " + " << sum.imag << "i\n";
+                cout << "Iloczyn: " << product.real << " + " << product.imag << "i\n";
+                cout << "Liczba o najwiekszym module: " << maxModulus.real << " + " << maxModulus.imag << "i\n";
                 break;
             }
             case 4: {
+                double A, B, C, esp;
+
+                cin >> A >> B >> C >> esp;
+
+                BinomialSolver solver(A, B, C);
+
+                solver.solveEquation();
+
                 break;
             }
             case 8: {
+                BSTree bst;
+                std::cout << (bst.isEmpty() ? "Tree is empty" : "Tree is not empty") << std::endl;
+                bst.insert(5);
+                bst.insert(3);
+                bst.insert(7);
+                bst.insert(4);
+                bst.insert(2);
+                std::cout << (bst.isEmpty() ? "Tree is empty" : "Tree is not empty") << std::endl;
+                std::cout << "Tree contains element with the value of 3 : " << bst.contains(3) << std::endl;
+                std::cout << "Tree contains element with the value of 9 : " << bst.contains(9) << std::endl;
+                bst.printInOrder();
+                std::cout << std::endl;
+                bst.clear();
+                std::cout << (bst.isEmpty() ? "Tree is empty" : "Tree is not empty") << std::endl;
+
                 break;
             }
 
@@ -170,7 +310,7 @@ int main() {
                 double avgTimeQuick = 0.0;
 
                 for (int i = 0; i < numArrays; ++i) {
-                    std::vector<int> arr(arraySize);
+                    vector<int> arr(arraySize);
                     for (int j = 0; j < arraySize; ++j) {
                         arr[j] = rand() % range;
                     }
@@ -184,9 +324,9 @@ int main() {
                 avgTimeHeap /= numArrays;
                 avgTimeQuick /= numArrays;
 
-                cout << "Average time taken for Bubble Sort: " << avgTimeBubble << " seconds\n";
-                cout << fixed << "Average time taken for Heap Sort: " << avgTimeHeap << " seconds\n";
-                cout << fixed << "Average time taken for Quick Sort: " << avgTimeQuick << " seconds\n";
+                cout << "BS: " << avgTimeBubble << "\n";
+                cout << fixed << "HS: " << avgTimeHeap << "\n";
+                cout << fixed << "QS: " << avgTimeQuick << "\n";
                 break;
             }
         }
