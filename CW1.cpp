@@ -5,6 +5,7 @@
 #include <algorithm>
 #include <ctime>
 #include <iomanip>
+#include <fstream>
 
 using namespace std;
 
@@ -97,6 +98,22 @@ struct Complex {
 
     Complex operator*(const Complex& other) {
         return Complex(real * other.real - imag * other.imag, real * other.imag + imag * other.real);
+    }
+
+    double getRe(){
+        return real;
+    }
+
+    double getIm(){
+        return imag;
+    }
+
+    void setRe(double val){
+        real = val;
+    }
+
+    void setIm(double val){
+        imag = val;
     }
 };
 
@@ -249,25 +266,43 @@ int main() {
                 break;
             }
             case 3: {
-                Complex sum(0, 0);
-                Complex product(1, 0);
-                Complex maxModulus(0, 0);
-
+                vector<Complex> numbers;
                 double real, imag;
+                ifstream inputFile("ex3.txt");
 
-                cin >> real >> imag;
-                Complex current(real, imag);
-
-                sum = sum + current;
-                product = product * current;
-
-                if (current.modulus() > maxModulus.modulus()) {
-                    maxModulus = current;
+                if (!inputFile.is_open()) {
+                    cout << "Nie można otworzyć pliku." << endl;
+                    return 1;
                 }
 
-                cout << "Suma: " << sum.real << " + " << sum.imag << "i\n";
-                cout << "Iloczyn: " << product.real << " + " << product.imag << "i\n";
-                cout << "Liczba o najwiekszym module: " << maxModulus.real << " + " << maxModulus.imag << "i\n";
+                while (inputFile >> real >> imag) {
+                    numbers.emplace_back(real, imag);
+                }
+
+                inputFile.close();
+                if (numbers.empty()) {
+                    cout << "Brak danych." << endl;
+                    return 0;
+                }
+
+                Complex sum(0, 0), product(1, 1);
+                double maxModulus = 0;
+                Complex maxModulusNumber(0, 0);
+
+                for (auto& num : numbers) {
+                    sum = sum + num;
+                    product = product * num;
+                    double modulus = num.modulus();
+                    if (modulus > maxModulus) {
+                        maxModulus = modulus;
+                        maxModulusNumber = num;
+                    }
+                }
+
+                cout << "Suma: " << sum.getRe() << (sum.getIm() >= 0 ? "+" : "") << sum.getIm() << "i" << endl;
+                cout << "Iloczyn: " << product.getRe() << (product.getIm() >= 0 ? "+" : "") << product.getIm() << "i" << endl;
+                cout << "Liczba z największym modułem: " << maxModulusNumber.getRe() << (maxModulusNumber.getIm() >= 0 ? "+" : "") << maxModulusNumber.getIm() << "i" << endl;
+
                 break;
             }
             case 4: {
@@ -308,7 +343,6 @@ int main() {
 
                 break;
             }
-
             case 13: {
                 const int numArrays = 1000;
                 const int arraySize = 300;
