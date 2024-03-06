@@ -261,7 +261,7 @@ void func2(){
 void func3(){
     vector<Complex> numbers;
     double real, imag;
-    ifstream inputFile("File name");
+    ifstream inputFile("../ex3.txt");
 
     if (!inputFile.is_open()) {
         cout << "Nie można otworzyć pliku." << endl;
