@@ -1,5 +1,5 @@
 /.vs
 /.idea
 /cmake-build-debug
-/CMakeLists.txt
-/.DS_Store
+CMakeLists.txt
+.DS_Store
