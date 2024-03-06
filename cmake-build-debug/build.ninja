@@ -49,12 +49,6 @@ cmake_ninja_workdir = /Users/juliuszkozlowski/Documents/Studia/JPO/cmake-build-d
 
 build cmake_object_order_depends_target_JPO: phony || CMakeFiles/JPO.dir
 
-build CMakeFiles/JPO.dir/CW1.cpp.o: CXX_COMPILER__JPO_unscanned_Debug /Users/juliuszkozlowski/Documents/Studia/JPO/CW1.cpp || cmake_object_order_depends_target_JPO
-  DEP_FILE = CMakeFiles/JPO.dir/CW1.cpp.o.d
-  FLAGS = -g -std=gnu++14 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.2.sdk -fcolor-diagnostics
-  OBJECT_DIR = CMakeFiles/JPO.dir
-  OBJECT_FILE_DIR = CMakeFiles/JPO.dir
-
 build CMakeFiles/JPO.dir/CW2.cpp.o: CXX_COMPILER__JPO_unscanned_Debug /Users/juliuszkozlowski/Documents/Studia/JPO/CW2.cpp || cmake_object_order_depends_target_JPO
   DEP_FILE = CMakeFiles/JPO.dir/CW2.cpp.o.d
   FLAGS = -g -std=gnu++14 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.2.sdk -fcolor-diagnostics
@@ -69,7 +63,7 @@ build CMakeFiles/JPO.dir/CW2.cpp.o: CXX_COMPILER__JPO_unscanned_Debug /Users/jul
 #############################################
 # Link the executable JPO
 
-build JPO: CXX_EXECUTABLE_LINKER__JPO_Debug CMakeFiles/JPO.dir/CW1.cpp.o CMakeFiles/JPO.dir/CW2.cpp.o
+build JPO: CXX_EXECUTABLE_LINKER__JPO_Debug CMakeFiles/JPO.dir/CW2.cpp.o
   FLAGS = -g -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.2.sdk
   OBJECT_DIR = CMakeFiles/JPO.dir
   POST_BUILD = :
