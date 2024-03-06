@@ -81,6 +81,7 @@ struct BinomialSolver {
 
 
 };
+
 //Zadanie 3
 struct Complex {
     double real;
@@ -193,6 +194,7 @@ public:
         printInorderRec(root);
     }
 };
+
 //Zadanie 13
 class Sorting {
 public:
@@ -224,6 +226,143 @@ public:
     }
 };
 
+void func1(){
+    cout << "Podaj nazwe obiektu: " << endl;
+    string name;
+    cin >> name;
+    VerboseObject obj1(name);
+    obj1.show();
+
+    unique_ptr<VerboseObject> obj2(new VerboseObject(name));
+    obj2->show();
+
+    VerboseObject* obj3 = new VerboseObject(name);
+    obj3->show();
+    delete obj3;
+}
+
+void func2(){
+    BinomialSolver b1(1.0, -5.0, 4.0);
+    cout << "Roots of the equation x*x - 5x + 4 = 0 are: " << endl;
+    cout << "x1 = " << b1.returnX1() << ", x2 = " << b1.returnX2() << endl;
+    cout << "The value of the polynomial x*x - 5x + 4 at x = 1 is: ";
+    cout << b1.calculate(1.0) << endl;
+    cout << "The value of the polynomial x*x - 5x + 4 at x = 3 is: ";
+    cout << b1.calculate(3.0) << endl;
+    BinomialSolver b2(1.0, 2.0, 1.0);
+    cout << "Roots of the equation x*x + 2x + 1 = 0 are: " << endl;
+    cout << "x1 = " << b2.returnX1() << ", x2 = " << b2.returnX2() << endl;
+    cout << "The value of the polynomial x*x + 2x + 1 at x = 1 is: ";
+    cout << b2.calculate(1.0) << endl;
+    cout << "The value of the polynomial x*x + 2x + 1 at x = -1 is: ";
+    cout << b2.calculate(-1.0) << endl;
+}
+
+void func3(){
+    vector<Complex> numbers;
+    double real, imag;
+    ifstream inputFile("File name");
+
+    if (!inputFile.is_open()) {
+        cout << "Nie można otworzyć pliku." << endl;
+    }
+
+    while (inputFile >> real >> imag) {
+        numbers.emplace_back(real, imag);
+    }
+
+    inputFile.close();
+    if (numbers.empty()) {
+        cout << "Brak danych." << endl;
+    }
+
+    Complex sum(0, 0), product(1, 1);
+    double maxModulus = 0;
+    Complex maxModulusNumber(0, 0);
+
+    for (auto& num : numbers) {
+        sum = sum + num;
+        product = product * num;
+        double modulus = num.modulus();
+        if (modulus > maxModulus) {
+            maxModulus = modulus;
+            maxModulusNumber = num;
+        }
+    }
+
+    cout << "Suma: " << sum.getRe() << (sum.getIm() >= 0 ? "+" : "") << sum.getIm() << "i" << endl;
+    cout << "Iloczyn: " << product.getRe() << (product.getIm() >= 0 ? "+" : "") << product.getIm() << "i" << endl;
+    cout << "Liczba z największym modułem: " << maxModulusNumber.getRe() << (maxModulusNumber.getIm() >= 0 ? "+" : "") << maxModulusNumber.getIm() << "i" << endl;
+
+}
+
+void func4(){
+    double A, B, C, eps;
+    int precision;
+
+    cin >> A >> B >> C >> eps;
+
+    precision = abs(static_cast<int>(log10(eps)));
+
+    BinomialSolver binomial(A,B,C);
+    binomial.solveEquation();
+
+    if(!isnan(binomial.returnX1())){
+        if(binomial.returnX1() > binomial.returnX2()){
+            cout << fixed << setprecision(precision) << binomial.returnX1() << endl;
+        }else{
+            cout << fixed << setprecision(precision) << binomial.returnX2() << endl;
+        }
+    }
+}
+
+void func8(){
+    BSTree bst;
+    std::cout << (bst.isEmpty() ? "Tree is empty" : "Tree is not empty") << std::endl;
+    bst.insert(5);
+    bst.insert(3);
+    bst.insert(7);
+    bst.insert(4);
+    bst.insert(2);
+    std::cout << (bst.isEmpty() ? "Tree is empty" : "Tree is not empty") << std::endl;
+    std::cout << "Tree contains element with the value of 3 : " << bst.contains(3) << std::endl;
+    std::cout << "Tree contains element with the value of 9 : " << bst.contains(9) << std::endl;
+    bst.printInOrder();
+    std::cout << std::endl;
+    bst.clear();
+    std::cout << (bst.isEmpty() ? "Tree is empty" : "Tree is not empty") << std::endl;
+
+}
+
+void func13(){
+    const int numArrays = 1000;
+    const int arraySize = 300;
+    const int range = 1000;
+
+    double avgTimeBubble = 0.0;
+    double avgTimeHeap = 0.0;
+    double avgTimeQuick = 0.0;
+
+    for (int i = 0; i < numArrays; ++i) {
+        vector<int> arr(arraySize);
+        for (int j = 0; j < arraySize; ++j) {
+            arr[j] = rand() % range;
+        }
+
+        avgTimeBubble += Sorting::measurement(arr, Sorting::bubbleSort);
+        avgTimeHeap += Sorting::measurement(arr, Sorting::heapSort);
+        avgTimeQuick += Sorting::measurement(arr, Sorting::quickSort);
+    }
+
+    avgTimeBubble /= numArrays;
+    avgTimeHeap /= numArrays;
+    avgTimeQuick /= numArrays;
+
+    cout << "BS: " << avgTimeBubble << "\n";
+    cout << fixed << "HS: " << avgTimeHeap << "\n";
+    cout << fixed << "QS: " << avgTimeQuick << "\n";
+};
+
 int main() {
     int exNumber;
 
@@ -233,146 +372,29 @@ int main() {
 
         switch (exNumber) {
             case 1: {
-                cout << "Podaj nazwe obiektu: " << endl;
-                string name;
-                cin >> name;
-                VerboseObject obj1(name);
-                obj1.show();
-
-                unique_ptr<VerboseObject> obj2(new VerboseObject(name));
-                obj2->show();
-
-                VerboseObject* obj3 = new VerboseObject(name);
-                obj3->show();
-                delete obj3;
-
+                func1();
                 break;
             }
             case 2: {
-                BinomialSolver b1(1.0, -5.0, 4.0);
-                cout << "Roots of the equation x*x - 5x + 4 = 0 are: " << endl;
-                cout << "x1 = " << b1.returnX1() << ", x2 = " << b1.returnX2() << endl;
-                cout << "The value of the polynomial x*x - 5x + 4 at x = 1 is: ";
-                cout << b1.calculate(1.0) << endl;
-                cout << "The value of the polynomial x*x - 5x + 4 at x = 3 is: ";
-                cout << b1.calculate(3.0) << endl;
-                BinomialSolver b2(1.0, 2.0, 1.0);
-                cout << "Roots of the equation x*x + 2x + 1 = 0 are: " << endl;
-                cout << "x1 = " << b2.returnX1() << ", x2 = " << b2.returnX2() << endl;
-                cout << "The value of the polynomial x*x + 2x + 1 at x = 1 is: ";
-                cout << b2.calculate(1.0) << endl;
-                cout << "The value of the polynomial x*x + 2x + 1 at x = -1 is: ";
-                cout << b2.calculate(-1.0) << endl;
+                func2();
                 break;
             }
             case 3: {
-                vector<Complex> numbers;
-                double real, imag;
-                ifstream inputFile("ex3.txt");
-
-                if (!inputFile.is_open()) {
-                    cout << "Nie można otworzyć pliku." << endl;
-                    return 1;
-                }
-
-                while (inputFile >> real >> imag) {
-                    numbers.emplace_back(real, imag);
-                }
-
-                inputFile.close();
-                if (numbers.empty()) {
-                    cout << "Brak danych." << endl;
-                    return 0;
-                }
-
-                Complex sum(0, 0), product(1, 1);
-                double maxModulus = 0;
-                Complex maxModulusNumber(0, 0);
-
-                for (auto& num : numbers) {
-                    sum = sum + num;
-                    product = product * num;
-                    double modulus = num.modulus();
-                    if (modulus > maxModulus) {
-                        maxModulus = modulus;
-                        maxModulusNumber = num;
-                    }
-                }
-
-                cout << "Suma: " << sum.getRe() << (sum.getIm() >= 0 ? "+" : "") << sum.getIm() << "i" << endl;
-                cout << "Iloczyn: " << product.getRe() << (product.getIm() >= 0 ? "+" : "") << product.getIm() << "i" << endl;
-                cout << "Liczba z największym modułem: " << maxModulusNumber.getRe() << (maxModulusNumber.getIm() >= 0 ? "+" : "") << maxModulusNumber.getIm() << "i" << endl;
-
+                func3();
                 break;
             }
             case 4: {
-                double A, B, C, eps;
-                int precision;
-
-                cin >> A >> B >> C >> eps;
-
-                precision = abs(static_cast<int>(log10(eps)));
-
-                BinomialSolver binomial(A,B,C);
-                binomial.solveEquation();
-
-                if(!isnan(binomial.returnX1())){
-                    if(binomial.returnX1() > binomial.returnX2()){
-                        cout << fixed << setprecision(precision) << binomial.returnX1() << endl;
-                    }else{
-                        cout << fixed << setprecision(precision) << binomial.returnX2() << endl;
-                    }
-                }
+                func4();
                 break;
             }
             case 8: {
-                BSTree bst;
-                std::cout << (bst.isEmpty() ? "Tree is empty" : "Tree is not empty") << std::endl;
-                bst.insert(5);
-                bst.insert(3);
-                bst.insert(7);
-                bst.insert(4);
-                bst.insert(2);
-                std::cout << (bst.isEmpty() ? "Tree is empty" : "Tree is not empty") << std::endl;
-                std::cout << "Tree contains element with the value of 3 : " << bst.contains(3) << std::endl;
-                std::cout << "Tree contains element with the value of 9 : " << bst.contains(9) << std::endl;
-                bst.printInOrder();
-                std::cout << std::endl;
-                bst.clear();
-                std::cout << (bst.isEmpty() ? "Tree is empty" : "Tree is not empty") << std::endl;
-
+                func8();
                 break;
             }
             case 13: {
-                const int numArrays = 1000;
-                const int arraySize = 300;
-                const int range = 1000;
-
-                double avgTimeBubble = 0.0;
-                double avgTimeHeap = 0.0;
-                double avgTimeQuick = 0.0;
-
-                for (int i = 0; i < numArrays; ++i) {
-                    vector<int> arr(arraySize);
-                    for (int j = 0; j < arraySize; ++j) {
-                        arr[j] = rand() % range;
-                    }
-
-                    avgTimeBubble += Sorting::measurement(arr, Sorting::bubbleSort);
-                    avgTimeHeap += Sorting::measurement(arr, Sorting::heapSort);
-                    avgTimeQuick += Sorting::measurement(arr, Sorting::quickSort);
-                }
-
-                avgTimeBubble /= numArrays;
-                avgTimeHeap /= numArrays;
-                avgTimeQuick /= numArrays;
-
-                cout << "BS: " << avgTimeBubble << "\n";
-                cout << fixed << "HS: " << avgTimeHeap << "\n";
-                cout << fixed << "QS: " << avgTimeQuick << "\n";
+                func13();
                 break;
             }
         }
     } while (true);
-
 }
