@@ -1,4 +1,5 @@
 #include <iostream>
+#include <cmath>
 
 using namespace std;
 
@@ -91,10 +92,58 @@ void func1(){
     //d
 //Po zmianie dzieczenia na protected kod działa nie prawidłowo. Kompilator nie może wydobyć wartości z klasy rodzica.
 };
+
+//Zadanie 2
+class Circle:public Shape{
+    double radius, diameter;
+public:
+    Circle(string name, double radius_):Shape(name), radius(radius_){
+        diameter = 2 * radius;
+        cout<<"Circle constuctor "<<getName()<<endl;
+
+    }
+    ~Circle(){
+        cout<<"Circle destructor "<<getName()<<endl;
+    }
+    double area(){
+        return M_PI * radius * radius;
+    }
+    double getRadius(){
+        return radius;
+    }
+
+};
+
+class Cylinder: public Circle{
+    double height;
+public:
+    Cylinder(string name, double radius_, double height_):Circle(name,radius_), height(height_){
+        cout<<"Cylinder constructor "<<getName()<<endl;
+    }
+    ~Cylinder(){
+        cout<<"Cylider destructor "<<getName()<<endl;
+    }
+    double volume(){
+        return M_PI * height * getRadius() * getRadius();
+    }
+
+    double area(){
+        return (2*M_PI*getRadius()*height) + (2*M_PI*getRadius() * getRadius());
+    }
+
+};
+
+void func2(){
+    Circle c1("cir1", 5);
+    cout<<"Area of: "<<c1.area()<<endl;
+    Cylinder cy1("cyli1", 5, 10);
+    cout<<"Area of: "<<cy1.area()<<" volume of cylider is: "<<cy1.volume()<<endl;
+}
+
 int main(){
     int exNumber;
     do{
-        cout << "Podaj numer zadania: 1,2,3 lub 5" << endl;
+        cout << "Pick the number of exercise: 1,2,3 or 5" << endl;
         cin >> exNumber;
         switch (exNumber) {
             case 1:{
@@ -102,6 +151,7 @@ int main(){
                 break;
             }
             case 2:{
+                func2();
                 break;
             }
             case 3:{
@@ -112,6 +162,4 @@ int main(){
             }
         }
     }while(true);
-
-    return 0;
 }
