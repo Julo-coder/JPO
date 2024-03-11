@@ -198,14 +198,14 @@ public:
 //Zadanie 13
 class Sorting {
 public:
-    static double measurement(vector<int>& arr, void (*sortFunction)(vector<int>&)) {
+    static double measurement(vector<int> arr, void (*sortFunction)(vector<int>)) {
         clock_t start = clock();
         sortFunction(arr);
         clock_t end = clock();
         return double(end - start) / CLOCKS_PER_SEC;
     }
 
-    static void bubbleSort(vector<int>& arr) {
+    static void bubbleSort(vector<int> arr) {
         int n = arr.size();
         for (int i = 0; i < n - 1; ++i) {
             for (int j = 0; j < n - i - 1; ++j) {
@@ -216,12 +216,12 @@ public:
         }
     }
 
-    static void heapSort(vector<int>& arr) {
+    static void heapSort(vector<int> arr) {
         make_heap(arr.begin(), arr.end());
         sort_heap(arr.begin(), arr.end());
     }
 
-    static void quickSort(vector<int>& arr) {
+    static void quickSort(vector<int> arr) {
         sort(arr.begin(), arr.end());
     }
 };
