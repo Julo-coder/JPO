@@ -172,7 +172,99 @@ void func3(){
 
 };
 
+//Zadanie 4
+class Rim{
+private:
+    double weight, rim_width, rim_diameter;
+public:
+    Rim(double weight_, double rim_width_, double rim_diameter_) : weight(weight_), rim_width(rim_width_), rim_diameter(rim_diameter_){}
+    ~Rim(){}
 
+    double getRimWeight(){
+        return weight;
+    }
+
+    double getRimWidth(){
+        return rim_width;
+    }
+
+    double getRimDiameter(){
+        return rim_diameter;
+    }
+};
+
+class Tire{
+private:
+    double weight, tire_width, tire_diameter;
+public:
+    Tire(double weight_, double tire_width_, double tire_diameter_) : weight(weight_), tire_width(tire_width_), tire_diameter(tire_diameter_){}
+    ~Tire(){}
+
+    double getTireWeight(){
+        return weight;
+    }
+
+    double getTireWidth(){
+        return  tire_width;
+    }
+
+    double getTireDiameter(){
+        return tire_diameter;
+    }
+
+};
+
+class Wheel{
+private:
+    Rim* rim;
+    Tire* tire;
+    double wheel_weight;
+public:
+    Wheel() : tire(nullptr), rim(nullptr), wheel_weight(0.0) {}
+
+    void setWheelWeight(){
+        wheel_weight = 0.0;
+        if (rim != nullptr) wheel_weight += rim->getRimWeight();
+        if (tire != nullptr) wheel_weight += tire->getTireWeight();
+    }
+
+    void put_on_Rim(Rim& r){
+        rim = &r;
+        setWheelWeight();
+    }
+
+    void mount_Tire(Tire& t){
+        if(t.getTireDiameter() != rim->getRimDiameter() || abs(rim->getRimDiameter() - t.getTireDiameter()) > 10){
+            cout << "Niestety nie mozna zamontowac opony na felge." << endl;
+        }else{
+            tire = &t;
+            setWheelWeight();
+            cout << "Opona zamontowana na felge." << endl;
+        }
+    }
+
+    double total_mass(){
+        return wheel_weight;
+    }
+
+    double rolling_friction(Rim& r, Tire& t, double N){
+        N -= total_mass();
+        double f = 0.8;
+        return (f*N) / (r.getRimDiameter()+t.getTireDiameter());
+    }
+};
+
+void func5(){
+    Rim rim(5.5, 200, 16);
+    Tire tire(10.0, 205, 16);
+
+    Wheel wheel;
+
+    wheel.put_on_Rim(rim);
+    wheel.mount_Tire(tire);
+    cout << wheel.rolling_friction(rim, tire, 1800) << endl;
+
+}
 int main(){
     int exNumber;
     do{
@@ -192,6 +284,7 @@ int main(){
                 break;
             }
             case 5:{
+                func5();
                 break;
             }
         }
