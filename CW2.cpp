@@ -58,36 +58,34 @@ public:
 
 void func1(){
     //a
-//    Shape* shape1 = new Rectangle("Rectangle", 3, 4);
-//    Shape* shape2 = new Square("Square", 5);
-//
-//    cout << "Area of " << shape1->getName() << " is " << shape1->area() << endl;
-//    cout << "Area of " << shape2->getName() << " is " << shape2->area() << endl;
-//    delete shape1;
-//    delete shape2;
+    Shape* shape1 = new Rectangle("Rectangle", 3, 4);
+    Shape* shape2 = new Square("Square", 5);
+
+    cout << "Area of " << shape1->getName() << " is " << shape1->area() << endl;
+    cout << "Area of " << shape2->getName() << " is " << shape2->area() << endl;
+    delete shape1;
+    delete shape2;
 
     //b
-//    Rectangle rect("Rectangle", 2, 4);
-//    Square sq("Square", 4);
-//
-//    Shape& shape1 = rect;
-//    Shape& shape2 = sq;
-//
-//    cout << "Area of " << shape1.getName() << " is " << shape1.area() << endl;
-//    cout << "Area of " << shape2.getName() << " is " << shape2.area() << endl;
+    Rectangle rect("Rectangle", 2, 4);
+    Square sq("Square", 4);
+
+    Shape& shape3 = rect;
+    Shape& shape4 = sq;
+
+    cout << "Area of " << shape3.getName() << " is " << shape3.area() << endl;
+    cout << "Area of " << shape4.getName() << " is " << shape4.area() << endl;
 
     //Zadziałały destruktory klas oprócz klasy Square. W przykładzie 'A' żaden destruktor nie zadziałał.
 
     //c
-//    Rectangle rect("Rectangle", 2, 4);
-//    Square sq("Square", 4);
-//
-//    Shape* shape1 = &rect;
-//    Shape* shape2 = &sq;
-//
-//    cout << "Area of " << shape1->getName() << " is " << shape1->area() << endl;
-//    cout << "Area of " << shape2->getName() << " is " << shape2->area() << endl;
-//    //Nie pojawił się destruktor klasy Square. Żadnych innych zmian nie zaobserwowałem w porównaniu do podpunktu 'B'.
+
+    Shape* shape5 = &rect;
+    Shape* shape6 = &sq;
+
+    cout << "Area of " << shape5->getName() << " is " << shape5->area() << endl;
+    cout << "Area of " << shape6->getName() << " is " << shape6->area() << endl;
+    //Nie pojawił się destruktor klasy Square. Żadnych innych zmian nie zaobserwowałem w porównaniu do podpunktu 'B'.
 
     //d
 //Po zmianie dzieczenia na protected kod działa nie prawidłowo. Kompilator nie może wydobyć wartości z klasy rodzica.
@@ -140,6 +138,41 @@ void func2(){
     cout<<"Area of: "<<cy1.area()<<" volume of cylider is: "<<cy1.volume()<<endl;
 }
 
+//Zadanie 3
+
+class Funtion{
+public:
+    Funtion() = default;
+    virtual ~Funtion() = default;
+    virtual float calculate(float x) = 0;
+};
+
+class LinearFunction : public Funtion{
+private:
+    float a, b;
+public:
+    LinearFunction(float a_, float b_) : a(a_), b(b_){}
+    virtual ~LinearFunction(){}
+    float calculate(float x) {
+        return a * x + b;
+    }
+};
+
+void func3(){
+    float A, B, X;
+    cout << "Values of A and B is: " << endl;
+    cin >> A >> B ;
+
+    LinearFunction linear(A, B);
+
+    cout << "Value of X is : " << endl;
+    cin >> X;
+
+    cout << "Result is:  "<< linear.calculate(X) << endl;
+
+};
+
+
 int main(){
     int exNumber;
     do{
@@ -155,6 +188,7 @@ int main(){
                 break;
             }
             case 3:{
+                func3();
                 break;
             }
             case 5:{
