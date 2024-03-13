@@ -140,14 +140,14 @@ void func2(){
 
 //Zadanie 3
 
-class Funtion{
+class Function{
 public:
-    Funtion() = default;
-    virtual ~Funtion() = default;
+    Function() = default;
+    virtual ~Function() = default;
     virtual float calculate(float x) = 0;
 };
 
-class LinearFunction : public Funtion{
+class LinearFunction : public Function{
 private:
     float a, b;
 public:
