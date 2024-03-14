@@ -102,14 +102,14 @@ public:
 
     double totalArea() {
         double total = 0.0;
-        for (const auto& shape : shapes)
+        for (Shape* shape : shapes)
             total += shape->area();
         return total;
     }
 
     vector<Shape*> getGreaterThan(double area) {
         vector<Shape*> greater;
-        for (const auto& shape : shapes) {
+        for (Shape* shape: shapes) {
             if (shape->area() > area)
                 greater.push_back(shape);
         }
@@ -130,7 +130,7 @@ void func1(){
 
     vector<Shape*> greaterThan5 = container.getGreaterThan(5);
     cout << "Shapes with area greater than 5:" << endl;
-    for (const auto& shape : greaterThan5)
+    for (Shape* shape : greaterThan5)
         cout << shape->getName() << endl;
 
 };
@@ -200,8 +200,8 @@ public:
     void setX(double x_val) {
         x = x_val;
     }
-    double calculate() const {
-        return (function->calculateFun(x + epsilon) - function->calculateFun(x)) / epsilon;
+    double calculate() const{
+        return (function->calculateFun(x + epsilon) - (function->calculateFun(x))) / epsilon;
     }
 
     double getX(){
@@ -210,11 +210,11 @@ public:
 };
 
 void func2() {
-    LinearFunction my_linear_function(13, 2);
+    LinearFunction my_linear_function(-7.99, 9);
     ZeroOfFunction zero_of_function(&my_linear_function);
     Derivative derivative(&my_linear_function);
 
-    zero_of_function.setRange(0, 6);
+    zero_of_function.setRange(-2, 2);
 
     double zero = zero_of_function.calculate();
     derivative.setX(0);
