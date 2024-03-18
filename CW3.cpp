@@ -118,18 +118,33 @@ public:
 };
 
 void func1(){
+    double recA, recB, sqW, circR, elipMajA, elipMinA;
+    cout << "Podaj wysokosc i szerokoscc prostokata: " << endl;
+    cin >> recA >> recB;
+    cout << "Podaj dlugosc boku kwadratu: " << endl;
+    cin >> sqW;
+    cout << "Podaj promien kola: " << endl;
+    cin >> circR;
+    cout << "Podaj dluzsza przekotna: " << endl;
+    cin >> elipMajA;
+    cout << "Podaj krotsza przekatna: " << endl;
+    cin >> elipMinA;
+
     ShapeContainer container;
-    container.add(new Rectangle("Rectangle", 3, 4));
-    container.add(new Square("Square", 5));
-    container.add(new Circle("Circle", 2));
-    container.add(new Ellipse("Ellipse", 3, 2));
+    container.add(new Rectangle("Rectangle", recA, recB));
+    container.add(new Square("Square", sqW));
+    container.add(new Circle("Circle", circR));
+    container.add(new Ellipse("Ellipse", elipMajA, elipMinA));
 
     container.displayAll();
 
     cout << "Total area: " << container.totalArea() << endl;
 
-    vector<Shape*> greaterThan5 = container.getGreaterThan(5);
-    cout << "Shapes with area greater than 5:" << endl;
+    cout << "Podaj liczbe do sprawdzenia wartsci: " << endl;
+    int number;
+    cin >> number;
+    vector<Shape*> greaterThan5 = container.getGreaterThan(number);
+    cout << "Shapes with area greater than :" << number << endl;
     for (Shape* shape : greaterThan5)
         cout << shape->getName() << endl;
 
@@ -210,19 +225,38 @@ public:
 };
 
 void func2() {
-    LinearFunction my_linear_function(-7.99, 9);
+    double X,Y, low, high, setX;
+    cout << "Podaj wartosc x do funckji liniowej: " << endl;
+    cin >> X;
+    cout << "Podaj wspolczynnik y do funkcji liniowej: " << endl;
+    cin >> Y;
+
+    LinearFunction my_linear_function(X, Y);
     ZeroOfFunction zero_of_function(&my_linear_function);
     Derivative derivative(&my_linear_function);
-
-    zero_of_function.setRange(-2, 2);
+    cout << "Podaj gorna wartosc do przedzialu przeszukiwania: " << endl;
+    cin >> high;
+    cout << "Podaj dolna wartosc do przedzialu przeszukiwania: " << endl;
+    cin >> low;
+    zero_of_function.setRange(low, high);
 
     double zero = zero_of_function.calculate();
-    derivative.setX(0);
+    cout << "Podaj wartosc x do sprawdzenia pochodnej: " << endl;
+    cin >> setX;
+    derivative.setX(setX);
     double derivative_value = derivative.calculate();
 
     cout << "Zero of the function: " << zero << endl;
     cout << "Derivative at x = " << derivative.getX() << " : " << derivative_value << endl;
 };
+
+
+class Matrices{
+private:
+    int height, width;
+
+};
+
 
 int main(){
     int exNumber;

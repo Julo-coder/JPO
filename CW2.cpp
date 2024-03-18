@@ -172,7 +172,7 @@ void func3(){
 
 };
 
-//Zadanie 4
+//Zadanie 5
 class Rim{
 private:
     double weight, rim_width, rim_diameter;
@@ -255,14 +255,31 @@ public:
 };
 
 void func5(){
-    Rim rim(5.5, 200, 16);
-    Tire tire(10.0, 205, 16);
+    double weightT, weightR, widthT, widthR, tireD, rimD, weightC;
+    cout << "Wprowadz szerokosc felgi: " << endl;
+    cin >> widthR;
+    cout << "Wprowadz mase felgi: " << endl;
+    cin >> weightR;
+    cout << "Wprowadz srednice felgi: " << endl;
+    cin >> rimD;
+    cout << "Wprowadz szerokosc opony: " << endl;
+    cin >> widthT;
+    cout << "Wprowadz mase opony: " << endl;
+    cin >> weightT;
+    cout << "Wprowadz srednica opony: " << endl;
+    cin >> tireD;
+
+
+    Rim rim(weightR, widthR, rimD);
+    Tire tire(weightT, widthT, tireD);
 
     Wheel wheel;
 
     wheel.put_on_Rim(rim);
     wheel.mount_Tire(tire);
-    cout << wheel.rolling_friction(rim, tire, 1800) << endl;
+    cout << "Podaj mase auta: " << endl;
+    cin >> weightC;
+    cout << wheel.rolling_friction(rim, tire, weightC) << endl;
 
 }
 int main(){

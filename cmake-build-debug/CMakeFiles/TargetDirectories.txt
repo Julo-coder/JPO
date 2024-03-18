@@ -1,3 +1,0 @@
-C:/JPO/cmake-build-debug/CMakeFiles/JPO.dir
-C:/JPO/cmake-build-debug/CMakeFiles/edit_cache.dir
-C:/JPO/cmake-build-debug/CMakeFiles/rebuild_cache.dir
