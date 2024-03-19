@@ -3,6 +3,7 @@
 #include <cmath>
 #include <string>
 #include <stdexcept>
+#include <cstdlib>
 using namespace std;
 
 //Zadanie 1
@@ -415,10 +416,16 @@ public:
         }
     }
 
+    void setMatrixValue(int row, int col, int value) {
+        if (row >= 0 && row < height && col >= 0 && col < width) {
+            matrix[row][col] = value;
+        }
+    }
+
 };
 
 void func6(){
-    int h, w;
+    int h, w, value, scalar;
     cout << "Podaj wysokosc macierzy: " << endl;
     cin >> h;
     cout << "Podaj szerokosc macierzy: " << endl;
@@ -426,25 +433,44 @@ void func6(){
 
     Matrices matrix1(h, w);
     cout << "Matrix matrix1: " << endl;
+    //matrix1.printMatrix();
+    cout << endl;
+
+    for(int i = 0; i < h; i++){
+        for(int j = 0; j < w; j++){
+            cout << "Podaj wartosc do wpisania do macierzy: " << endl;
+            cin >> value;
+            matrix1.setMatrixValue(i, j, value);
+        }
+    }
+
     matrix1.printMatrix();
     cout << endl;
-
-    Matrices matrix2 = matrix1;
-    cout << "Matrix matrix2: " << endl;
-    matrix2.printMatrix();
+    matrix1.transpose_Matrix();
+    matrix1.printMatrix();
     cout << endl;
+    cout << "Podaj scalar przez jaki chcesz przemnożyć macierz: " << endl;
+    cin >> scalar;
+    matrix1.multiply_Matrix(scalar);
+    matrix1.printMatrix();
 
-    Matrices matrix3 = move(matrix1);
-    cout << "Matrix matrix3: " << endl;
-    matrix3.printMatrix();
-    cout << endl;
+
+//    Matrices matrix2 = matrix1;
+//    cout << "Matrix matrix2: " << endl;
+//    matrix2.printMatrix();
+//    cout << endl;
+//
+//    Matrices matrix3 = move(matrix1);
+//    cout << "Matrix matrix3: " << endl;
+//    matrix3.printMatrix();
+//    cout << endl;
 }
 
 
 int main(){
     int exNumber;
     do{
-        cout << "Pick the number of exercise: 1,2,4 or 6" << endl;
+        cout << "Pick the number of exercise: 1,2,4 or 6:" << endl;
         cin >> exNumber;
         switch (exNumber) {
             case 1:{
