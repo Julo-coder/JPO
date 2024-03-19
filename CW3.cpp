@@ -347,8 +347,98 @@ void func4(){
 class Matrices{
 private:
     int height, width;
+    int** matrix;
+public:
+    Matrices(int height_, int width_) : height(height_), width(width_){
+        matrix = new int*[height];
+        for(int i = 0; i < height; i++){
+            matrix[i] = new int[width];
+        }
+    }
+    //Kopiujący
+    Matrices (Matrices& other) : height(other.height), width(other.width) {
+        matrix = new int*[height];
+        for(int i = 0; i < height; i++){
+            matrix[i] = new int[width];
+            for(int j = 0; j < width; j++){
+                matrix[i][j] = other.matrix[i][j];
+            }
+        }
+    }
+    //Przenoszący
+    Matrices(Matrices&& other) noexcept : height(other.height), width(other.width), matrix(other.matrix){
+        other.height = 0;
+        other.width = 0;
+        other.matrix = nullptr;
+    }
+    //Destruktor
+    ~Matrices(){
+        for(int i = 0; i < height; i++){
+            delete[] matrix[i];
+        }
+        delete[] matrix;
+    }
+
+    void multiply_Matrix(int scalar){
+        for(int i = 0; i < height; i++){
+            for(int j = 0; j < width; j++){
+                matrix[i][j] *= scalar;
+            }
+        }
+    }
+
+    void transpose_Matrix(){
+        int** transposed = new int*[width];
+        for(int i = 0; i < width; i++){
+            transposed[i] = new int[height];
+            for(int j = 0; j < height; j++){
+                transposed[i][j] = matrix[j][i];
+            }
+        }
+
+        for(int z = 0; z < height; z++){
+            delete[] matrix[z];
+        }
+        delete[] matrix;
+
+        matrix = transposed;
+
+        swap(height, width);
+    }
+
+    void printMatrix() const {
+        for (int i = 0; i < height; ++i) {
+            for (int j = 0; j < width; ++j) {
+                cout << matrix[i][j] << " ";
+            }
+            cout << endl;
+        }
+    }
 
 };
+
+void func6(){
+    int h, w;
+    cout << "Podaj wysokosc macierzy: " << endl;
+    cin >> h;
+    cout << "Podaj szerokosc macierzy: " << endl;
+    cin >> w;
+
+    Matrices matrix1(h, w);
+    cout << "Matrix matrix1: " << endl;
+    matrix1.printMatrix();
+    cout << endl;
+
+    Matrices matrix2 = matrix1;
+    cout << "Matrix matrix2: " << endl;
+    matrix2.printMatrix();
+    cout << endl;
+
+    Matrices matrix3 = move(matrix1);
+    cout << "Matrix matrix3: " << endl;
+    matrix3.printMatrix();
+    cout << endl;
+}
 
 
 int main(){
@@ -370,7 +460,7 @@ int main(){
                 break;
             }
             case 6:{
-                //func6();
+                func6();
                 break;
             }
         }
