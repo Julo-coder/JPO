@@ -2,6 +2,7 @@
 #include <vector>
 #include <cmath>
 #include <string>
+#include <stdexcept>
 using namespace std;
 
 //Zadanie 1
@@ -250,6 +251,98 @@ void func2() {
     cout << "Derivative at x = " << derivative.getX() << " : " << derivative_value << endl;
 };
 
+//Zadanie 4
+class no_real_solution : public runtime_error{
+public:
+    double root1, root2;
+
+    no_real_solution(double r1, double r2)
+            : std::runtime_error("No real solutions exist."), root1(r1), root2(r2) {}
+
+    double getRoot1() const {
+        return root1;
+    }
+
+    double getRoot2() const {
+        return root2;
+    }
+};
+struct BinomialSolver {
+    double factA, factB, factC;
+
+    double x1, x2, x0;
+    BinomialSolver(double a, double b, double c) : factA(a), factB(b), factC(c) {};
+
+
+    double returnA()  {
+        return factA;
+    }
+
+    double returnB() {
+        return factB;
+    }
+
+    double returnC()  {
+        return factC;
+    }
+
+    double returnX1() {
+        return x1;
+    }
+
+    double returnX2() {
+        return x2;
+    }
+
+    double returnX0(){
+        return x0;
+    }
+
+    void solveEquation() {
+        double delta = factB * factB - 4 * factA * factC;
+        cout << "Delta: "<< delta << endl;
+        if (delta > 0) {
+            x1 = ((-factB + sqrt(delta))/ (2 * factA));
+            x2 = ((-factB - sqrt(delta)) / (2 * factA));
+        }
+        else if (delta == 0) {
+            x0 = (-factB / (2 * factA));
+        }
+        else {
+            double imaginary_part = sqrt(-delta) / (2 * factA);
+            double real_part = -factB / (2 * factA);
+            throw no_real_solution(real_part, imaginary_part);
+        }
+    }
+
+    double calculate(double x) {
+        return factA * x * x + factB * x + factC;
+    }
+
+
+};
+
+void func4(){
+    try {
+        //example 1
+        BinomialSolver ex1(1, 5, 3);
+        ex1.solveEquation();
+        cout << "Miejsca zerowe sa w: " << ex1.returnX1() << " " << ex1.returnX2() << endl;
+        //example 2
+        BinomialSolver ex2(1, 2, 1);
+        ex2.solveEquation();
+        cout << "Miejsca zerowe jest w: " << ex2.returnX0() << endl;
+        //example 3
+        BinomialSolver ex3(6, 3, 9);
+        ex3.solveEquation();
+        cout << "Miejsca zerowe sa w: " << ex3.returnX1() << " " << ex3.returnX2() << endl;
+    }
+    catch (no_real_solution& e){
+        cout << "Error "<< e.what() << " Roots: " << e.getRoot1() << " + " << e.getRoot2() << "i" << endl;
+    }
+
+}
+
 
 class Matrices{
 private:
@@ -273,7 +366,7 @@ int main(){
                 break;
             }
             case 4:{
-                //func4();
+                func4();
                 break;
             }
             case 6:{
