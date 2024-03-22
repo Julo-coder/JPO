@@ -28,15 +28,11 @@ int func1(){
 int main(){
     int exNumber;
     do{
-        cout << "Pick the number of exercise: 1,2,4 or 6:" << endl;
+        cout << "Pick the number of exercise: 1,4 or 6:" << endl;
         cin >> exNumber;
         switch (exNumber) {
-            case 1:{
+            case 1: {
                 func1();
-                break;
-            }
-            case 2:{
-                //func2();
                 break;
             }
             case 4:{

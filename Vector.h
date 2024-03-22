@@ -75,7 +75,7 @@ public:
         return false;
     }
 
-    friend ostream& operator<<(ostream os, Vector<T>& vec){
+    friend ostream& operator<<(ostream& os, Vector<T>& vec){
         os << "[";
         for (size_t i = 0; i < vec.size(); ++i) {
             os << vec[i];
