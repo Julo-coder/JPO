@@ -27,19 +27,13 @@ public:
     size_t size() const {
         return dimensions;
     }
-    T& at(size_t index) { // a
-        return data[index];
-    }
-    const T& at(size_t index) const { // a
-        return data[index];
-    }
 
     T& operator[](size_t index) {
-        return at(index);
+        return data[index];
     }
 
     const T& operator[](size_t index) const {
-        return at(index);
+        return data[index];
     }
 
     friend Vector<T> operator-(const Vector<T>& a, const Vector<T>& b){
