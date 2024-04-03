@@ -3,7 +3,6 @@
 #include <cmath>
 #include <string>
 #include <stdexcept>
-#include <cstdlib>
 using namespace std;
 
 //Zadanie 1
@@ -258,7 +257,7 @@ public:
     double root1, root2;
 
     no_real_solution(double r1, double r2)
-            : std::runtime_error("No real solutions exist."), root1(r1), root2(r2) {}
+            : runtime_error("No real solutions exist."), root1(r1), root2(r2) {}
 
     double getRoot1() const {
         return root1;
@@ -432,9 +431,6 @@ void func6(){
     cin >> w;
 
     Matrices matrix1(h, w);
-    cout << "Matrix matrix1: " << endl;
-    //matrix1.printMatrix();
-    cout << endl;
 
     for(int i = 0; i < h; i++){
         for(int j = 0; j < w; j++){
@@ -443,7 +439,8 @@ void func6(){
             matrix1.setMatrixValue(i, j, value);
         }
     }
-
+    cout << "Matrix matrix1: " << endl;
+    cout << endl;
     matrix1.printMatrix();
     cout << endl;
     matrix1.transpose_Matrix();
@@ -455,16 +452,24 @@ void func6(){
     matrix1.printMatrix();
 
 
-//    Matrices matrix2 = matrix1;
-//    cout << "Matrix matrix2: " << endl;
-//    matrix2.printMatrix();
-//    cout << endl;
-//
-//    Matrices matrix3 = move(matrix1);
-//    cout << "Matrix matrix3: " << endl;
-//    matrix3.printMatrix();
-//    cout << endl;
+
+    Matrices matrix2 = matrix1;
+    cout << "Matrix matrix2: " << endl;
+    matrix2.printMatrix();
+    cout << endl;
+
+    Matrices matrix3 = move(matrix1);
+    cout << "Matrix matrix3: " << endl;
+    matrix3.printMatrix();
+
+    cout << endl;
+    cout << "Matrix matrix1: " << endl;
+    cout << endl;
+    matrix1.printMatrix();
 }
+
+
+
 
 
 int main(){

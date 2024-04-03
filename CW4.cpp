@@ -11,7 +11,9 @@ int func1(){
     }
     cout << "Wektor v1: " << v1 << endl;
     Vector<T> v2 = v1 + v1;
+
     cout << "Wektor v2: " << v2 << endl;
+
     cout << "v1 == v1: " << (v1 == v1 ? "TAK" : "NIE") << endl;
     cout << "v1 != v1: " << (v1 != v1 ? "TAK" : "NIE") << endl;
     cout << "v1 == v2: " << (v1 == v2 ? "TAK" : "NIE") << endl;
@@ -22,8 +24,10 @@ int func1(){
     v3 = v1;
     cout << "Wektor v3: " << v3 << endl;
     cout << "v1 == v3: " << (v1 == v3 ? "TAK" : "NIE") << endl;
-    getchar();
 };
+
+
+
 
 int main(){
     int exNumber;

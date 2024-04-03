@@ -7,6 +7,7 @@ add_executable(JPO
         #CW1.cpp
         #CW2.cpp
         #CW3.cpp
-        CW4.cpp
-        Vector.h
+        #CW4.cpp
+        #Vector.h
+        CW5.cpp
 )

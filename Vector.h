@@ -9,20 +9,21 @@ private:
     size_t dimensions;
     T* data;
 public:
+    //Konstruktor
     Vector<T>(size_t dimensions) : dimensions(dimensions), data(new T[dimensions]())
     {}
-
-    Vector<T>(const Vector<T>& other) : dimensions(other.dimensions), data(new T[other.dimensions]) {
-        copy(other.data, other.data + other.dimensions, data);
-    }
-
-    Vector<T>(Vector<T>&& other) noexcept : dimensions(other.dimensions), data(other.data) {
-        other.dimensions = 0;
-        other.data = nullptr;
-    }
-
-    ~Vector<T>() {
-        if (data) delete[] data;
+//Kopiujacy
+//    Vector<T>(const Vector<T>& other) : dimensions(other.dimensions), data(new T[other.dimensions]) {
+//        copy(other.data, other.data + other.dimensions, data);
+//    }
+////Przenoszacy
+//    Vector<T>(Vector<T>&& other) noexcept : dimensions(other.dimensions), data(other.data) {
+//        other.dimensions = 0;
+//        other.data = nullptr;
+//    }
+//Destruktor
+    virtual ~Vector<T>() {
+        delete[] data;
     }
     size_t size() const {
         return dimensions;
@@ -36,19 +37,21 @@ public:
         return data[index];
     }
 
-    friend Vector<T> operator-(const Vector<T>& a, const Vector<T>& b){
+    Vector<T> operator-(const Vector<T>& a){
         Vector<T> c(a.size());
         for (size_t i = 0; i < a.size(); i++) {
-            c[i] = a[i] - b[i];
+            c[i] = data[i] - a[i];
         }
+        return c;
     }
 
 
-    friend Vector<T> operator+(const Vector<T>& a, const Vector<T>& b){
+    Vector<T> operator+(const Vector<T>& a){
         Vector<T> c(a.size());
         for (size_t i = 0; i < a.size(); i++) {
-            c[i] = a[i] + b[i];
+            c[i] = data[i] + a[i];
         }
+        return c;
     }
 
     friend bool operator==(const Vector<T>& a, const Vector<T>& b){
