@@ -222,10 +222,10 @@ void func5(){
         int count_2 = count(v.begin(), v.end(), *i);
         cout << "Liczba " << *i << " występuje " << count_2 << endl;
     }
+
     cout << "Wyświetlenie zawartość występowania liczb w tablicy typu list: " << endl;
-    auto it = unique(lists.begin(), lists.end());
-    lists.erase(it, lists.end());
-    for(auto it = lists.begin(); it != lists.end(); ++it){
+    set<int> uniq_val_list(lists.begin(), lists.end());
+    for(auto it = uniq_val_list.begin(); it != uniq_val_list.end(); ++it){
         int count_2 = count(lists.begin(), lists.end(), *it);
         cout << "Liczba " << *it<< " występuje " << count_2 << endl;
     }
