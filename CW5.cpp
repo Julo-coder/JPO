@@ -4,6 +4,7 @@
 #include <list>
 #include <random>
 #include <algorithm>
+#include <set>
 
 using namespace std;
 
@@ -216,14 +217,17 @@ void func5(){
     }
 
     cout << "Wyświetlenie zawartość występowania liczb w tablicy typu wektor: " << endl;
-    for(auto i = v.begin(); i != v.end(); i++){
+    set<int> uniq_val(v.begin(), v.end());
+    for(auto i = uniq_val.begin(); i != uniq_val.end(); i++){
         int count_2 = count(v.begin(), v.end(), *i);
         cout << "Liczba " << *i << " występuje " << count_2 << endl;
     }
     cout << "Wyświetlenie zawartość występowania liczb w tablicy typu list: " << endl;
-    for(auto i = lists.begin(); i != lists.end(); i++){
-        int count_2 = count(lists.begin(), lists.end(), *i);
-        cout << "Liczba " << *i << " występuje " << count_2 << endl;
+    auto it = unique(lists.begin(), lists.end());
+    lists.erase(it, lists.end());
+    for(auto it = lists.begin(); it != lists.end(); ++it){
+        int count_2 = count(lists.begin(), lists.end(), *it);
+        cout << "Liczba " << *it<< " występuje " << count_2 << endl;
     }
     cout << endl;
 }
