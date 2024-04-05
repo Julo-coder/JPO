@@ -176,11 +176,9 @@ void func4(){
 
 
     cout << endl << "Usuwanie największego skladnika z tablicy : ";
-    auto highestValVec = max_element(v.begin(), v.end());
-    auto toDeleteVector = find(v.begin(), v.end(), *highestValVec);
+    auto toDeleteVector = find(v.begin(), v.end(), *max_element(v.begin(), v.end()));
 
-    auto highestValList = max_element(lists.begin(), lists.end());
-    auto toDeleteList = find(lists.begin(), lists.end(), *highestValList);
+    auto toDeleteList = find(lists.begin(), lists.end(), *max_element(lists.begin(), lists.end()));
 
     v.erase(toDeleteVector);
     lists.erase(toDeleteList);
