@@ -270,7 +270,7 @@ void func6(){
     for(auto i = lists.begin(); i != lists.end(); i++){
         cout << *i << " ";
     }
-//Sortowanie malejąco
+    //Sortowanie malejąco
     sort(v.begin(), v.end(), greater<>());
     lists.sort(greater<>());
 
@@ -282,7 +282,7 @@ void func6(){
     for(auto i = lists.begin(); i != lists.end(); i++){
         cout << *i << " ";
     }
-//Sortowanie od najmniejszej do największej warotści bezwzględnej
+    //Sortowanie od najmniejszej do największej warotści bezwzględnej
     sort(v.begin(), v.end(), [](int a, int b) {
         return abs(a) > abs(b);
     });
@@ -300,10 +300,127 @@ void func6(){
     }
     cout << endl;
 }
+//------------------------------------------
+enum PlantType{Fruit, Vegetable};
+
+struct Plant{
+    PlantType type;
+    string name;
+    bool operator<(const Plant& p2) const{
+        if (type < p2.type) {
+            return true;
+        } else if (type > p2.type) {
+            return false;
+        } else {
+            return name < p2.name;
+        }
+    };
+};
+typedef set<Plant> Basket;
+
+//Zadanie 8
+ostream& operator<<(ostream& out, const Plant& plant) {
+    if(plant.type == 0){
+        out << "Typ: Fruit" << " Nazwa: " << plant.name << endl;
+    }else if(plant.type == 1){
+        out << "Typ: Vegetable" << " Nazwa: " << plant.name << endl;
+    }
+    return out;
+};
+
+ostream& operator<<(ostream& out, const Basket& basket) {
+    for (auto it = basket.begin(); it != basket.end(); ++it) {
+        out << *it << " ";
+    }
+    return out;
+};
+
+
+
+//Zadanie 9
+bool is_there_a_pear(const Basket& basket) {
+    auto it = find_if(basket.begin(), basket.end(), [](const Plant& plant) {
+        return plant.name == "gruszka";
+    });
+
+    return it != basket.end();
+};
+
+//Zadanie 10
+bool are_there_only_fruits(const Basket& basket) {
+    return all_of(basket.begin(), basket.end(),
+                       [](const Plant& plant) { return plant.type == PlantType::Fruit; } );
+}
+
+bool are_there_only_vegetable(const Basket& basket) {
+    return all_of(basket.begin(), basket.end(),
+                       [](const Plant& plant) { return plant.type == PlantType::Vegetable; } );
+}
+
+bool are_there_no_fruit(const Basket& basket) {
+    return none_of(basket.begin(), basket.end(),
+                       [](const Plant& plant) { return plant.type == PlantType::Fruit; } );
+}
+
+bool are_there_no_vegetable(const Basket& basket) {
+    return none_of(basket.begin(), basket.end(),
+                       [](const Plant& plant) { return plant.type == PlantType::Vegetable; } );
+}
+
+bool are_there_more_than_one_fruit(const Basket& basket) {
+    return any_of(basket.begin(), basket.end(),
+                       [](const Plant& plant) { return plant.type == PlantType::Fruit; } );
+}
+
+bool are_there_more_than_one_vegetable(const Basket& basket) {
+    return any_of(basket.begin(), basket.end(),
+                       [](const Plant& plant) { return plant.type == PlantType::Vegetable; } );
+}
+
+//Zadanie 11
+
+void Gocha(){
+    Basket basket;
+
+    cout << "Ile owoców chcesz wsadzić do koszczyka? " << endl;
+    int count;
+    cin >> count;
+    string typeFruit;
+    string nameFruit;
+
+    for(int i = 0; i < count; i++){
+        cout << "Podaj czy jest to owoc czy warzywo: " << endl;
+        cin >> typeFruit;
+        cout << "Podaj nazwę owoca lub warzywa: " << endl;
+        cin >> nameFruit;
+
+        if(typeFruit == "warzywo"){
+            basket.insert({PlantType::Vegetable, nameFruit});
+        }else if(typeFruit == "owoc"){
+            basket.insert({PlantType::Fruit, nameFruit});
+        }else{
+            cout << "Nie poprawne dane." << endl;
+        }
+
+    }
+
+    cout << basket.size() << endl;
+    for(auto i = basket.begin(); i != basket.end(); i++){
+        cout << *i << " ";
+    }
+
+//    cout << basket << endl;
+    bool hasPear = is_there_a_pear(basket);
+    bool test = are_there_no_vegetable(basket);
+    cout << test;
+    cout << endl;
+};
+
+
 int main(){
     int exNumber;
     do{
-        cout << "Pick the number of exercise from 1 to 6:" << endl;
+        cout << "Pick the number of exercise from 1 to 15:" << endl;
         cin >> exNumber;
         switch (exNumber) {
             case 1: {
@@ -328,6 +445,11 @@ int main(){
             }
             case 6:{
                 func6();
+                break;
+            }
+            case 7: {
+                Gocha();
+
                 break;
             }
         }
