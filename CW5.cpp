@@ -378,11 +378,33 @@ bool are_there_more_than_one_vegetable(const Basket& basket) {
 }
 
 //Zadanie 11
+int count_fruits(const Basket& basket) {
+    return count_if(basket.begin(), basket.end(), [](const Plant& plant) {
+        return plant.type == Fruit;
+    });
+}
+
+int count_vegetables(const Basket& basket) {
+    return count_if(basket.begin(), basket.end(), [](const Plant& plant) {
+        return plant.type == Vegetable;
+    });
+}
+// Zadanie 12
+void remove_plants_from_a(Basket &basket) {
+    for (auto it = basket.begin(); it != basket.end();) {
+        if (it->name[0] == 'A' || it->name[0] == 'a') {
+            it = basket.erase(it);
+        } else {
+            ++it;
+        }
+    }
+}
+//Zadanie 13
 
 void Gocha(){
     Basket basket;
 
-    cout << "Ile owoców chcesz wsadzić do koszczyka? " << endl;
+    cout << "Ile owocow chcesz wsadzic do koszczyka? " << endl;
     int count;
     cin >> count;
     string typeFruit;
@@ -391,7 +413,7 @@ void Gocha(){
     for(int i = 0; i < count; i++){
         cout << "Podaj czy jest to owoc czy warzywo: " << endl;
         cin >> typeFruit;
-        cout << "Podaj nazwę owoca lub warzywa: " << endl;
+        cout << "Podaj nazwe owoca lub warzywa: " << endl;
         cin >> nameFruit;
 
         if(typeFruit == "warzywo"){
@@ -404,15 +426,56 @@ void Gocha(){
 
     }
 
-    cout << basket.size() << endl;
-    for(auto i = basket.begin(); i != basket.end(); i++){
-        cout << *i << " ";
-    }
-
-//    cout << basket << endl;
+    cout << basket << endl;
     bool hasPear = is_there_a_pear(basket);
     bool test = are_there_no_vegetable(basket);
     cout << test;
+    cout << endl;
+    //Zadanie 11
+    int fruitCount = count_fruits(basket);
+    int vegetableCount = count_vegetables(basket);
+
+    cout << "Liczba owocow: " << fruitCount << endl;
+    cout << "Liczba warzyw: " << vegetableCount << endl;
+
+
+    Basket martaBasket;
+    cout << "Uzupelniamy koszyk Marty." << endl;
+    cout << "Podaj ile chcesz wsadzic owocow." << endl;
+    cin >> count;
+    for(int i = 0; i < count; i++){
+        cout << "Podaj czy jest to owoc czy warzywo: " << endl;
+        cin >> typeFruit;
+        cout << "Podaj nazwe owoca lub warzywa: " << endl;
+        cin >> nameFruit;
+
+        if(typeFruit == "warzywo"){
+            basket.insert({PlantType::Vegetable, nameFruit});
+        }else if(typeFruit == "owoc"){
+            basket.insert({PlantType::Fruit, nameFruit});
+        }else{
+            cout << "Nie poprawne dane." << endl;
+        }
+
+    }
+
+    //Zadanie 13
+    cout << "Usuwanie zawartosci koszyka dla owocow na litere A" << endl;
+    remove_plants_from_a(martaBasket);
+    cout << "Wyswietlenie z usunietymi owocami: " << endl;
+    cout << martaBasket;
+    //Zadanie 14
+    Basket common_basket;
+
+    set_intersection(basket.begin(), basket.end(), martaBasket.begin(), martaBasket.end(), inserter(common_basket, common_basket.end()));
+    cout << "Elementy wspolne w dwuch koszykach." << endl;
+    cout << common_basket << endl;
+
+    //Zadanie 15
+    Basket bigBasket;
+    set_union(basket.begin(), basket.end(),martaBasket.begin(), martaBasket.end(),inserter(bigBasket, bigBasket.end()));
+    cout << "Zlaczone koszyki: " << endl;
+    cout << bigBasket;
     cout << endl;
 };
 
