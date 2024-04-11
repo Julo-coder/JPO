@@ -401,7 +401,7 @@ void remove_plants_from_a(Basket &basket) {
 }
 //Zadanie 13
 
-void Gocha(){
+void Gosia(){
     Basket basket;
 
     cout << "Ile owocow chcesz wsadzic do koszczyka? " << endl;
@@ -511,7 +511,7 @@ int main(){
                 break;
             }
             case 7: {
-                Gocha();
+                Gosia();
 
                 break;
             }
