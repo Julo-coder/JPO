@@ -34,7 +34,7 @@ public:
             return p.odleglosc += k;
         }
         else {
-            cout << "Odleglosc przekracza wysokosc stozka!!!!!!!" << endl;
+            throw invalid_argument( "Odleglosc przekracza wysokosc stozka!!!!!!!");
             return p.odleglosc;
         }
     }
@@ -46,13 +46,19 @@ public:
 
 
 void func1() {
-    Przekroj_nad_Podstawa przek(5, 8, 3.5);
-    cout << przek;
+    try {
+        Przekroj_nad_Podstawa przek(5, 8, 7);
+        cout << przek;
 
-    cout << "Modyfikacja odleglosci: " << endl;
-    przek -= 2.4;
+        cout << "Modyfikacja odleglosci: " << endl;
+        przek -= 2.4;
 
-    cout << przek;
+        cout << przek;
+    }
+    catch (exception& e) {
+        cerr << e.what() << "\n";
+    }
+
 }
 
 //----------------------Zadanie2-----------------------------------------
@@ -87,13 +93,19 @@ void func2() {
             i++;
         }
 
-        if (klucz != 0) {
-            pojemnik.figury.insert({ klucz, przekroj });
+        try {
+            if (klucz != 0) {
+                pojemnik.figury.insert({ klucz, przekroj });
+            }
+            else {
+                throw invalid_argument("Klucz rowny 0, pomijam dodanie do mapy");
+                delete przekroj;
+            }
         }
-        else {
-            cout << "Klucz rowny 0, pomijam dodanie do mapy" << endl;
-            delete przekroj;
+        catch (exception& e) {
+            cerr << e.what() << "\n";
         }
+
 
 
     }
@@ -130,6 +142,8 @@ int main()
     } while (true);
 
 }
+
+
 
 //Logowanie do chata i google:
 //login: chatchatowy3@gmail.com
