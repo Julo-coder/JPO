@@ -5,6 +5,8 @@
 #include <map>
 #include <string>
 #include <sstream>
+#include <typeinfo>
+#include <vector>
 
 using namespace std;
 //--------------------------Zadanie1------------------------------------------------------------------
@@ -34,8 +36,8 @@ public:
             return p.odleglosc += k;
         }
         else {
-            throw invalid_argument( "Odleglosc przekracza wysokosc stozka!!!!!!!");
-            return p.odleglosc;
+            throw out_of_range( "Odleglosc przekracza wysokosc stozka!!!!!!!");
+            //return p.odleglosc;
         }
     }
 
@@ -47,7 +49,7 @@ public:
 
 void func1() {
     try {
-        Przekroj_nad_Podstawa przek(5, 8, 7);
+        Przekroj_nad_Podstawa przek(5, 8, 3.5);
         cout << przek;
 
         cout << "Modyfikacja odleglosci: " << endl;
@@ -116,6 +118,24 @@ void func2() {
         cout << it->first <<  " " << *it->second << endl;
     }
 
+    vector <Przekroj_nad_Podstawa*> vec;
+
+    for (auto it = pojemnik.figury.begin(); it != pojemnik.figury.end(); it++) {
+        if (strcmp(typeid(*it->second).name(), "class Przekroj_nad_Podstawa") == 0 && it->second->oblicz_pole() > 30) {
+            *it->second -= 2.5;
+            vec.push_back(it->second);
+        }
+    }
+
+
+    sort(vec.begin(), vec.end(), [](Przekroj_nad_Podstawa* a, Przekroj_nad_Podstawa* b) {
+        return a->oblicz_pole() < b->oblicz_pole();
+    });
+
+    for (auto& i : vec) {
+        cout << *i << endl;
+    }
+
 }
 
 
@@ -143,8 +163,3 @@ int main()
 
 }
 
-
-
-//Logowanie do chata i google:
-//login: chatchatowy3@gmail.com
-//haslo: zaq1@WSX
